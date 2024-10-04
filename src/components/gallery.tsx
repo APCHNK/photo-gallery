@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useService from "../Service/Service";
 import { State, useAppDispatch, useAppSelector } from "../store";
+import { useEffect } from "react";
 
 function Gallery () {
 
@@ -8,7 +9,13 @@ function Gallery () {
     const dispatch = useAppDispatch()
 
     const query = useAppSelector((state: State) => state.search)
-    const galleryPage = useAppSelector((state: State) => state.galleryPage) + 1
+    const galleryPage = useAppSelector((state: State) => state.galleryPage)
+
+    useEffect(() => {
+        getPhotos().then((res) => {
+            dispatch({type: 'gallery', payload: res})
+        })
+    }, [])
 
     const getPhotosByclick = () => {
         if (query.length > 0) {
@@ -20,8 +27,11 @@ function Gallery () {
 
     const changePage = (type: 'galleryNextPage' | 'galleryPreviousPage') => {
         if (galleryPage >= 1 && query) {
-            getPhotos(query, galleryPage).then((res) => {
-                dispatch({type: type})
+            dispatch({type})
+
+            const newGalleryPage = type === 'galleryNextPage' ? galleryPage + 1 : galleryPage - 1;
+
+            getPhotos(query, newGalleryPage).then((res) => {
                 dispatch({type: 'gallery', payload: res})
             })
         }

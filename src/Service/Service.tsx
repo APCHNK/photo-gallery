@@ -23,7 +23,7 @@ function useService() {
         const res = await request(`${_apiBase}photos/random?count=1&${_apiKey}`);
         return _transformRandomPhoto(res[0])
     };
-    const getPhotos = async (query: string, page: number = 1) => {
+    const getPhotos = async (query: string = 'top', page: number = 1) => {
         const res = await request(`${_apiBase}search/photos?page=${page}&query=${query}&${_apiKey}`);
         return res.results.map(_transformPhotos)
     };

@@ -15,7 +15,7 @@ function PhotoPage() {
             <div className="photo-container">
                 <img src={imageUrl}  className="photo" />
             </div>
-            <a href={`https://unsplash.com/photos/${id}/download?force=true`} download="proposed_file_name.jpeg">Download</a>
+            <a href={`https://unsplash.com/photos/${id}/download?force=true`} download={`${id}.jpeg`}>Download</a>
 
         </div>
     )
